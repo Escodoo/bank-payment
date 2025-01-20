@@ -23,6 +23,11 @@ class AccountPaymentMode(models.Model):
         "that has a payment line with a payment date before the maturity "
         "date.",
     )
+    individual_payment = fields.Boolean(
+        string="Individual Payment per Partner",
+        help="Enable this option to process payments individually"
+        " for this partner instead of combining them in a single payment order.",
+    )
     # Default options for the "payment.order.create" wizard
     default_payment_mode = fields.Selection(
         selection=[("same", "Same"), ("same_or_null", "Same or empty"), ("any", "Any")],

@@ -107,9 +107,19 @@ class AccountMove(models.Model):
             if not payment_modes:
                 raise UserError(_("No Payment Mode on invoice %s") % move.name)
             for payment_mode in payment_modes:
-                payorder = apoo.search(
-                    move.get_account_payment_domain(payment_mode), limit=1
-                )
+                if payment_mode.individual_payment:
+                    payorder = apoo.search(
+                        [
+                            ("payment_line_ids.partner_id", "=", move.partner_id.id),
+                            ("payment_mode_id", "=", payment_mode.id),
+                            ("state", "=", "draft"),
+                        ],
+                        limit=1,
+                    )
+                else:
+                    payorder = apoo.search(
+                        move.get_account_payment_domain(payment_mode), limit=1
+                    )
                 new_payorder = False
                 if not payorder:
                     payorder = apoo.create(
