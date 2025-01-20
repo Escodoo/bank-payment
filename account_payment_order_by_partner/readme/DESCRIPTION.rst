@@ -1,0 +1,1 @@
+This module enhances payment order functionality in Odoo by ensuring that all payment lines within a payment order belong to the same partner. This enforces stricter partner consistency and aligns with workflows that require one payment order per partner, improving data integrity and preventing inconsistent payments.
